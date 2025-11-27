@@ -6,7 +6,7 @@ const pino = require("pino");
 const { Storage } = require("megajs");
 
 const {
-    default: Malvin_Tech,
+    default: Rony_Skies,
     useMultiFileAuthState,
     delay,
     makeCacheableSignalKeyStore,
@@ -65,11 +65,11 @@ router.get('/', async (req, res) => {
     const id = malvinid(); 
     let num = req.query.number;
 
-    async function MALVIN_PAIR_CODE() {
+    async function RONYSK_PAIR_CODE() {
         const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
 
         try {
-            let Malvin = Malvin_Tech({
+            let Ronysk = Rony_Rony({
                 auth: {
                     creds: state.creds,
                     keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
@@ -79,10 +79,10 @@ router.get('/', async (req, res) => {
                 browser: Browsers.macOS("Safari")
             });
 
-            if (!Malvin.authState.creds.registered) {
+            if (!Ronysk.authState.creds.registered) {
                 await delay(1500);
                 num = num.replace(/[^0-9]/g, '');
-                const code = await Malvin.requestPairingCode(num);
+                const code = await Ronysk.requestPairingCode(num);
                 console.log(`Your Code: ${code}`);
 
                 if (!res.headersSent) {
@@ -90,8 +90,8 @@ router.get('/', async (req, res) => {
                 }
             }
 
-            Malvin.ev.on('creds.update', saveCreds);
-            Malvin.ev.on("connection.update", async (s) => {
+            Ronysk.ev.on('creds.update', saveCreds);
+            Ronysk.ev.on("connection.update", async (s) => {
                 const { connection, lastDisconnect } = s;
 
                 if (connection === "open") {
@@ -105,39 +105,39 @@ router.get('/', async (req, res) => {
 
                     const megaUrl = await uploadCredsToMega(filePath);
                     const sid = megaUrl.includes("https://mega.nz/file/")
-                        ? 'COOLEST-MD~' + megaUrl.split("https://mega.nz/file/")[1]
+                        ? 'RONYSK-MD~' + megaUrl.split("https://mega.nz/file/")[1]
                         : 'Error: Invalid URL';
 
                     console.log(`Session ID: ${sid}`);
 
-                    const session = await Malvin.sendMessage(Malvin.user.id, { text: sid });
+                    const session = await Ronysk.sendMessage(Ronysk.user.id, { text: sid });
 
-                    const MALVIN_TEXT = `
-🎉 *Welcome to COOLEST-MD!* 🚀  
+                    const RONYSK_TEXT = `
+🎉 *Welcome to RONYSK-MD!* 🚀  
 
 🔒 *Your Session ID* is ready!  ⚠️ _Keep it private and secure — dont share it with anyone._ 
 
 🔑 *Copy & Paste the SESSION_ID Above*🛠️ Add it to your environment variable: *SESSION_ID*.  
 
 💡 *Whats Next?* 
-1️⃣ Explore all the cool features of COOLEST-MD.
+1️⃣ Explore all the cool features of RONYSK-MD.
 2️⃣ Stay updated with our latest releases and support.
 3️⃣ Enjoy seamless WhatsApp automation! 🤖  
 
-🔗 *Join Our Support Channel:* 👉 [Click Here to Join](https://whatsapp.com/channel/0029Vb9qprVJuyAJxcTO252t) 
+🔗 *Join Our Support Channel:* 👉 [Click Here to Join](https://whatsapp.com/channel/0029VbBnRol1XquTPCwUsk15) 
 
-⭐ *Show Some Love!* Give us a ⭐ on GitHub and support the developer of: 👉 [Zimtk GitHub Repo](https://github.com/superstar-zimtk/)  
+⭐ *Show Some Love!* Give us a ⭐ on GitHub and support the developer of: 👉 [Zimtk GitHub Repo](https://github.com/ronaldomazive915-source)  
 
-🚀 _Thanks for choosing COOLEST MD— Let the automation begin!_ ✨`;
+🚀 _Thanks for choosing Ronysk MD— Let the automation begin!_ ✨`;
 
-                    await Malvin.sendMessage(Malvin.user.id, { text: MALVIN_TEXT }, { quoted: session });
+                    await Ronysk.sendMessage(Ronysk.user.id, { text: RONYSK_TEXT }, { quoted: session });
 
                     await delay(100);
-                    await Malvin.ws.close();
+                    await Ronysk.ws.close();
                     return removeFile('./temp/' + id);
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode !== 401) {
                     await delay(10000);
-                    MALVIN_PAIR_CODE();
+                    RONYSK_PAIR_CODE();
                 }
             });
         } catch (err) {
